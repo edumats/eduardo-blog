@@ -1,0 +1,76 @@
+{% extends 'layout.html' %}
+{% load crispy_forms_tags %}
+
+{% block meta%}
+  <meta name="robots" content="noindex" />
+{% endblock%}
+
+{% block title %}Create Post{% endblock %}
+{% block content %}
+    <div class="container">
+      <div class="row">
+        <!-- Content -->
+        <main class="post blog-post col-lg-8">
+          <div class="container">
+            <div class="post-single">
+              <div class="post-details">
+                <h1 class="mb-5">Create a post</h1>
+                {{ form.media }}
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <input class="btn btn-primary" type="submit" value="Create">
+                </form>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+    <script type="text/javascript">
+        function showPopup(triggeringLink) {
+            return showAdminPopup(triggeringLink, /^(change|add|delete)_/, false);
+        }
+
+        function showAdminPopup(triggeringLink, name_regexp, add_popup) {
+            const name = triggeringLink.id.replace(name_regexp, '');
+            let href = triggeringLink.href;
+            if (add_popup) {
+                if (href.indexOf('?') === -1) {
+                    href += '?_popup=1';
+                } else {
+                    href += '&_popup=1';
+                }
+            }
+            const win = window.open(href, name, 'height=500,width=800,resizable=yes,scrollbars=yes');
+            win.focus();
+            return false;
+        }
+
+
+        function dismissAddRelatedObjectPopup(win, newId, newRepr) {
+            const name = win.name;
+            const elem = document.getElementById(name);
+            if (elem) {
+                const elemName = elem.nodeName.toUpperCase();
+                if (elemName === 'SELECT') {
+                    elem.options[elem.options.length] = new Option(newRepr, newId, true, true);
+                } else if (elemName === 'INPUT') {
+                    if (elem.classList.contains('vManyToManyRawIdAdminField') && elem.value) {
+                        elem.value += ',' + newId;
+                    } else {
+                        elem.value = newId;
+                    }
+                }
+                // Trigger a change event to update related links if required.
+                $(elem).trigger('change');
+            } else {
+                const toId = name + "_to";
+                const o = new Option(newRepr, newId);
+                SelectBox.add_to_cache(toId, o);
+                SelectBox.redisplay(toId);
+            }
+            win.close();
+        }
+    </script>
+{% endblock %}

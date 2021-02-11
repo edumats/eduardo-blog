@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block title %}Bootstrap Blog{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <p>Hello, Eduardo</p>
+    <p>{% now "DATE_FORMAT" %}</p>
+{% else %}
+    <p>Hello, stranger</p>
+    <p>{% now "DATE_FORMAT" %}</p>
+{% endif %}
+
+<table class="table">
+    <tr>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Last modified</th>
+    </tr>
+    <tbody>
+        {% if latest_posts %}
+            {% for post in latest_posts %}
+                <tr>
+                        <td><p><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></p></td>
+                        <td>
+                            {% for category in post.categories.all %}
+                                <a href="{{ category.get_absolute_url }}">{{ category }}</a>
+                            {% endfor %}
+                        </td>
+                        <td><p>{{ post.created|date:"N d, Y" }}</p></td>
+
+                </tr>
+            {% endfor %}
+        {% else %}
+            <td>No Posts</td>
+        {% endif %}
+    </tbody>
+</table>
+<script id="dsq-count-scr" src="//dumats.disqus.com/count.js" async></script>
+{% endblock %}

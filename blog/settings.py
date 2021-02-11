@@ -1,0 +1,221 @@
+import os
+import environ
+from pathlib import Path
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+
+# reading .env file
+environ.Env.read_env()
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = env('SECRET_KEY')
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+
+ALLOWED_HOSTS = ['127.0.0.1']
+
+
+# Application definition
+
+INSTALLED_APPS = [
+    'filebrowser',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'posts',
+    'users',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
+    'tinymce',
+    'crispy_forms',
+    'storages',
+]
+
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+ROOT_URLCONF = 'blog.urls'
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+WSGI_APPLICATION = 'blog.wsgi.application'
+
+
+# Database
+# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+
+
+# Password validation
+# https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
+
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
+
+
+# Internationalization
+# https://docs.djangoproject.com/en/3.1/topics/i18n/
+
+LANGUAGE_CODE = 'en-us'
+
+TIME_ZONE = 'America/Sao_Paulo'
+
+USE_I18N = True
+
+USE_L10N = True
+
+USE_TZ = True
+
+
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/3.1/howto/static-files/
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+
+# Path to venv
+VENV_PATH = os.path.dirname(BASE_DIR)
+
+# Path for collectstatic to store files
+STATIC_ROOT = os.path.join(VENV_PATH, 'static_root')
+
+
+# User uploaded files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(VENV_PATH, 'media_root')
+
+# For crispy formats
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# Redirect to home URL after login/logout (Default redirects to /accounts/profile/)
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
+
+# For django.contrib.sites
+SITE_ID = 1
+
+# For AWS S3
+AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
+
+# Will append extra chracters to prevent overwrite
+AWS_S3_FILE_OVERWRITE = True
+
+# Base location for static files stores in S3
+# STATIC_URL = 'https://personal-django-blogs.s3-sa-east-1.amazonaws.com/'
+STATIC_URL = 'static/'
+
+# Configuration used by django-storages
+
+# To upload your media files to S3
+DEFAULT_FILE_STORAGE = 'blog.s3_storages.MediaStorage'
+
+# To allow django-admin collectstatic to automatically put your static files in your bucket
+# Comment out for local development
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
+
+# Directory where uploaded files will be saved
+MEDIAFILES_LOCATION = 'uploads'
+
+# A path prefix that will be prepended to all uploads
+AWS_LOCATION = 'static'
+
+FILEBROWSER_DEFAULT_PERMISSIONS = None
+
+# Speeds up the load of the filebrowser files
+FILEBROWSER_LIST_PER_PAGE = 5
+AWS_PRELOAD_METADATA = True
+AWS_QUERYSTRING_AUTH = False
+
+# For tinymce
+TINYMCE_DEFAULT_CONFIG = {
+
+    'cleanup_on_startup': True,
+    'custom_undo_redo_levels': 20,
+    'selector': 'textarea',
+    'theme': 'modern',
+    'width': '100%',
+    'plugins': '''
+            autoresize textcolor save link image media preview codesample contextmenu
+            table code lists fullscreen  insertdatetime  nonbreaking
+            contextmenu directionality searchreplace wordcount visualblocks
+            visualchars code fullscreen autolink lists  charmap print  hr
+            anchor pagebreak
+            ''',
+    'toolbar1': '''
+            preview bold italic underline | fontselect,
+            fontsizeselect  | forecolor | alignleft alignright |
+            aligncenter alignjustify | bullist numlist table |
+            | link image media | codesample | hr code |
+            ''',
+    'contextmenu': 'formats | link image',
+    'menubar': True,
+    'statusbar': True,
+    }
+
+# Heroku: Update database configuration from $DATABASE_URL.
+""" import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env) """
+
+# Uses sqlite when running tests
+import sys
+if 'test' in sys.argv:
+    DATABASES['default'] = {'ENGINE': 'django.db.backends.sqlite3'}

@@ -1,0 +1,34 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<html>
+    <head>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+        <title>Add {{ field }}</title>
+
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="my-4">
+                        <h1>Add {{ field }}</h1>
+                        <form method="POST" action="/add/{{ field }}/" enctype="multipart/form-data">
+                            <table>
+                                {% csrf_token %}
+                                {% crispy form %}
+                            </table>
+                            <div class="my-3">
+                                <input class="btn btn-primary" type="submit" value="Add to {{ field }}" />
+                                <a class="btn btn-danger" href="javascript:window.close()">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+
+</html>
