@@ -65,7 +65,7 @@ class TestViews(TestCase):
         self.assertTemplateUsed(response, '../templates/blog.html')
 
     def test_post_detail_get(self):
-        response = self.client.get(reverse('post', args=['test1']))
+        response = self.client.get(reverse('post-detail', args=['test1']))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, '../templates/post.html')
     

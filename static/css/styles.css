@@ -45,3 +45,25 @@ th {
 .post-body {
     color: #c8c8c8;
 }
+
+.text {
+    margin-left: 10px;
+}
+
+/* Page Structure */
+
+#page-container {
+    min-height: 100vh;
+}
+
+.main-footer {
+
+}
+
+.next-post {
+    margin-left: auto;
+}
+
+.prev-post {
+    margin-right: auto;
+}

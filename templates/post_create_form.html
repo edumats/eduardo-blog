@@ -12,17 +12,13 @@
         <!-- Content -->
         <main class="post blog-post col-lg-8">
           <div class="container">
-            <div class="post-single">
-              <div class="post-details">
-                <h1 class="mb-5">Create a post</h1>
-                {{ form.media }}
-                <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {{ form|crispy }}
-                    <input class="btn btn-primary" type="submit" value="Create">
-                </form>
-              </div>
-            </div>
+            <h1 class="mb-5">Create a post</h1>
+            {{ form.media }}
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input class="btn btn-primary" type="submit" value="Create">
+            </form>
           </div>
         </main>
       </div>

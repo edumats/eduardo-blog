@@ -6,23 +6,19 @@
 {% block meta_description %} {{ post.description|safe }} {% endblock %}
 
 {% block content %}
-    <div class="container">
-      <div class="row">
         <!-- Latest Posts -->
         <main class="post blog-post col-lg-8">
-          <div class="container">
             <div class="post-single">
               <div class="post-thumbnail"><img src="{{ post.thumbnail.image.url }}" alt="{{ post.thumbnail.alt_tag }}" class="img-fluid"></div>
               <div class="post-details">
                 {% if user.is_authenticated %}
-                    <div class="">
+                    <div>
                         <a href="{% url 'post-update' post.slug %}" class="text-small">Update</a>
                         <a href="{% url 'post-delete' post.slug %}" class="text-small">Delete</a>
                     </div>
                 {% endif %}
                 <h1>{{ post.title }}</h1>         
                 <p>Last modified {{ post.created|timesince }} ago</p>
-                <div class="comments meta-last"><i class="icon-comment"></i><a href="{{ post.get_absolute_url }}#disqus_thread" data-disqus-identifier="{{ post.get_absolute_url }}"></a></div>
                 <div class="post-body my-3">
                     {{ post.content | safe }}
                 </div>
@@ -31,18 +27,20 @@
                         <a href="{{ category.get_absolute_url }}" class="tag">#{{ category }}</a>
                     {% endfor %}
                 </div>
-                <div class="d-flex justify-content-between align-items-stretch flex-column flex-md-row my-4">
+                <div class="d-flex justify-content-between align-items-stretch my-4">
                     {% if post.get_previous_by_created %}
                         <a href="{% url 'post-detail' post.get_previous_by_created.slug %}" class="prev-post text-left d-flex align-items-center">
                             <div class="icon prev"><i class="fa fa-angle-left"></i></div>
-                            <div class="text"><strong class="text-primary">Previous Post</strong>
+                            <div class="text">
+                                <strong class="text-primary">Previous Post</strong>
                                 <h6>{{ post.get_previous_by_created.title }}</h6>
                             </div>
                         </a>
                     {% endif %}
                     {% if post.get_next_by_created %}
                         <a href="{% url 'post-detail' post.get_next_by_created.slug %}" class="next-post text-right d-flex align-items-center justify-content-end">
-                            <div class="text"><strong class="text-primary">Next Post </strong>
+                            <div>
+                                <strong class="text-primary">Next Post </strong>
                                 <h6>{{ post.get_next_by_created.title }}</h6>
                             </div>
                             <div class="icon next"><i class="fa fa-angle-right">   </i></div>
@@ -70,12 +68,8 @@
                     </script>
                     <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
                 </div>
-              </div>
             </div>
-          </div>
         </main>
         {% include "vertical_navbar.html" %}
-      </div>
-    </div>
     <script id="dsq-count-scr" src="//dumats.disqus.com/count.js" async></script>
 {% endblock %}

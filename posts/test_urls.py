@@ -15,7 +15,7 @@ class TestUrls(SimpleTestCase):
         self.assertEqual(resolve(url).func.__name__, PostListView.as_view().__name__)
 
     def test_post_url(self):
-        url = reverse('post', args=['some-slug'])
+        url = reverse('post-detail', args=['some-slug'])
         self.assertEqual(resolve(url).func.__name__, PostDetailView.as_view().__name__)
     
     def test_post_update_url(self):

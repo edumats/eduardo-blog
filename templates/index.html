@@ -3,19 +3,21 @@
 {% block title %}Bootstrap Blog{% endblock %}
 
 {% block content %}
-{% if user.is_authenticated %}
-    <p>Hello, Eduardo</p>
-    <p>{% now "DATE_FORMAT" %}</p>
-{% else %}
-    <p>Hello, stranger</p>
-    <p>{% now "DATE_FORMAT" %}</p>
-{% endif %}
+<div class="ml-3">
+    {% if user.is_authenticated %}
+        <p>Hello, Eduardo</p>
+    {% else %}
+        <p>Hello, stranger</p>
+    {% endif %}
+    <p>Today is {% now "DATE_FORMAT" %}</p>
+</div>
 
-<table class="table">
+
+<table class="table table-borderless table-responsive">
     <tr>
-        <th>Title</th>
-        <th>Category</th>
-        <th>Last modified</th>
+        <th scope="col">Title</th>
+        <th scope="col">Category</th>
+        <th scope="col">Last modified</th>
     </tr>
     <tbody>
         {% if latest_posts %}
