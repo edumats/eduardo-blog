@@ -1,0 +1,6 @@
+venv/
+.git/
+.cache
+*.md
+*.sqlite3
+.env
