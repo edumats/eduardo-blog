@@ -4,3 +4,4 @@ venv/
 *.md
 *.sqlite3
 .env
+*.pyc
