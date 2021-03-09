@@ -24,10 +24,10 @@ jobs:
     - name: Run tests
       run: python manage.py test
       env:
-        ALLOWED_HOSTS:"0.0.0.0 localhost"
-        SQL_ENGINE:django.db.backends.postgresql_psycopg2
-        SQL_DATABASE:blog
-        SQL_USER:edumats
-        SQL_PASSWORD:testing123
-        SQL_HOST:localhost
-        SQL_PORT:5432
+        ALLOWED_HOSTS: 0.0.0.0 localhost
+        SQL_ENGINE: django.db.backends.postgresql_psycopg2
+        SQL_DATABASE: blog
+        SQL_USER: edumats
+        SQL_PASSWORD: testing123
+        SQL_HOST: localhost
+        SQL_PORT: 5432
