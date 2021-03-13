@@ -24,11 +24,15 @@ class TestForms(TestCase):
             'description': 'Testing a form',
             'content': '<h1>This is a test</h1> <p>Testing 1, 2, 3</p>',
             'thumbnail': self.image,
+            'author': self.author
         })
         print(form.errors)
         self.assertTrue(form.is_valid())
-    
+
     def test_create_post_no_data(self):
+        '''
+        Checks if forms returns errors when required fields are not filled
+        '''
         form = CreatePostForm(data={})
         self.assertFalse(form.is_valid())
-        self.assertEqual(len(form.errors), 3)
+        self.assertEqual(len(form.errors), 4)

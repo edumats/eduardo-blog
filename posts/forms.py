@@ -1,5 +1,4 @@
 from django import forms
-from django.forms.models import inlineformset_factory
 
 from .models import Post, Image, Category
 from .form_select_override import SelectWithPop, MultipleSelectWithPop
@@ -17,7 +16,7 @@ class CreateCategoryForm(forms.ModelForm):
 class CreatePostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'description', 'content', 'thumbnail', 'categories', 'featured']
+        fields = ['title', 'description', 'content', 'author', 'thumbnail', 'categories', 'featured']
         widgets = {
             'thumbnail': SelectWithPop(),
             'categories': MultipleSelectWithPop()
