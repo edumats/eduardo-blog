@@ -3,6 +3,7 @@ from django.utils.safestring import mark_safe
 from django.forms import widgets
 from django.conf import settings
 
+
 # Adds a link for adding related objects
 class RelatedFieldWidgetCanAdd(widgets.Select):
 
@@ -21,7 +22,10 @@ class RelatedFieldWidgetCanAdd(widgets.Select):
     def render(self, name, value, *args, **kwargs):
         self.related_url = reverse(self.related_url)
         output = [super(RelatedFieldWidgetCanAdd, self).render(name, value, *args, **kwargs)]
-        output.append('<a href="%s" class="add-another" id="add_id_%s" onclick="return showAddAnotherPopup(this);"> ' % \
+        output.append(
+            '<a href="%s" class="add-another" id="add_id_%s" onclick="return showAddAnotherPopup(this);"> ' %
             (self.related_url, name))
-        output.append('<img src="%sadmin/img/icon-addlink.svg" width="10" height="10" alt="%s"/>Add</a>' % (settings.STATIC_URL, 'Add Another'))
+        output.append(
+            '<img src="%sadmin/img/icon-addlink.svg" width="10" height="10" alt="%s"/>Add</a>' %
+            (settings.STATIC_URL, 'Add Another'))
         return mark_safe(''.join(output))

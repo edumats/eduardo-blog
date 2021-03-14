@@ -1,6 +1,11 @@
-from django.urls import path, include
+from django.urls import path
 
-from .views import IndexView, PostDetailView, PostListView, PostDetailView, SearchView, PostDeleteView, PostUpdateView, PostCreateView, CategoryListView, CreateCategoryView, newImage, newCategory
+from .views import (
+        IndexView, PostDetailView, PostListView,
+        SearchView, PostDeleteView, PostUpdateView,
+        PostCreateView, CategoryListView, CreateCategoryView,
+        newImage, newCategory
+)
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),

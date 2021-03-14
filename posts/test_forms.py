@@ -1,9 +1,9 @@
 from django.test import TestCase
-from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib.auth.models import User
 
 from .forms import CreatePostForm
 from .models import Author, Image
+
 
 class TestForms(TestCase):
     def setUp(self):

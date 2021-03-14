@@ -1,13 +1,11 @@
-from base64 import b64decode
-
 from django.test import TestCase
-from django.core.files.base import ContentFile
 from django.contrib.auth.models import User
 from io import BytesIO
 from PIL import Image as PIL_IMAGE
 from django.core.files.base import File
 
-from .models import Author, Category, Image, Post 
+from .models import Author, Category, Image, Post
+
 
 class PostTestCase(TestCase):
     @staticmethod
@@ -37,15 +35,15 @@ class PostTestCase(TestCase):
 
         # Creates the Post object
         self.post1 = Post.objects.create(
-            title='Test 1 2 3', 
-            description='Testing a post', 
+            title='Test 1 2 3',
+            description='Testing a post',
             content='<h1>This is a test</h1> <p>Testing 1, 2, 3</p>',
-            author = self.author,
-            thumbnail = self.image,
-            featured = True
+            author=self.author,
+            thumbnail=self.image,
+            featured=True
         )
         self.post1.categories.add(self.category1, self.category2, self.category3)
-    
+
     def test_author_methods(self):
         self.assertEqual(str(self.author), 'Test User')
 

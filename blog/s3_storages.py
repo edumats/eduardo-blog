@@ -2,6 +2,7 @@ from django.utils import timezone
 from django.conf import settings
 from storages.backends.s3boto3 import S3Boto3Storage
 
+
 class MediaStorage(S3Boto3Storage):
     location = settings.MEDIAFILES_LOCATION
     isfilecached = {}
@@ -23,7 +24,7 @@ class MediaStorage(S3Boto3Storage):
             if self.isfilecached.get(name) is not None:
                 return self.isfilecached.get(name)
 
-            f = S3Boto3StorageFile(name, 'rb', self)
+            f = S3Boto3Storage(name, 'rb', self)
             if "directory" in f.obj.content_type:
                 isfile = False
             else:

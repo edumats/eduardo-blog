@@ -1,24 +1,28 @@
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.urls import reverse_lazy, reverse
 from django.db.models import Count, Q
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import UpdateView, DeleteView, CreateView, FormView
+from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.text import slugify
 from django.http import HttpResponseRedirect, HttpResponse
+from django.utils.html import escape
+from django.contrib.auth.decorators import login_required
 
-from .models import Author, Post, Category, Image
+from .models import Author, Post
 from .forms import CreatePostForm, CreateCategoryForm, UploadImage
+
 
 def get_category_count():
     queryset = Post.objects.values('categories__title').annotate(Count('categories__title'))
     return queryset
 
+
 def latest_posts():
     queryset = Post.objects.order_by('-created')[:3]
     return queryset
+
 
 class IndexView(ListView):
     model = Post
@@ -30,6 +34,7 @@ class IndexView(ListView):
         context = super().get_context_data(**kwargs)
         context['latest_posts'] = latest_posts()
         return context
+
 
 class PostListView(ListView):
     paginate_by = 4
@@ -44,6 +49,7 @@ class PostListView(ListView):
         context['category_count'] = get_category_count()
         return context
 
+
 class PostDetailView(DetailView):
     model = Post
     template_name = '../templates/post.html'
@@ -54,15 +60,18 @@ class PostDetailView(DetailView):
         context['category_count'] = get_category_count()
         return context
 
+
 class PostUpdateView(LoginRequiredMixin, UpdateView):
     model = Post
     fields = '__all__'
     template_name = '../templates/post_update_form.html'
 
+
 class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
     template_name = '../templates/post_delete_form.html'
     success_url = reverse_lazy('author-list')
+
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
@@ -79,6 +88,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     def form_invalid(self, form):
         print(form.errors)
         return super().form_invalid(form)
+
 
 class SearchView(ListView):
     paginate_by = 10
@@ -97,6 +107,7 @@ class SearchView(ListView):
             Q(title__icontains=query) | Q(description__icontains=query) | Q(categories__title__icontains=query)
         ).distinct().order_by('-created')
 
+
 class CategoryListView(ListView):
     paginate_by = 10
     model = Post
@@ -112,6 +123,7 @@ class CategoryListView(ListView):
         context['category'] = self.kwargs['category']
         return context
 
+
 def CreateCategoryView(request):
     if request.method == 'POST':
         print('posted')
@@ -122,28 +134,29 @@ def CreateCategoryView(request):
             return HttpResponseRedirect(reverse('post-create'))
 
 
-from django.utils.html import escape
 def handlePopAdd(request, addForm, field):
     if request.method == "POST":
         form = addForm(request.POST, request.FILES)
         if form.is_valid():
             try:
                 newObject = form.save()
-            except ValidationError:
+            except form.ValidationError:
                 newObject = None
             if newObject:
-                return HttpResponse('<script type="text/javascript">opener.dismissAddRelatedObjectPopup(window, "%s", "%s");</script>' % \
-                    (escape(newObject._get_pk_val()), escape(newObject)))
+                return HttpResponse(
+                    '<script type="text/javascript">opener.dismissAddRelatedObjectPopup(window, "%s", "%s");</script>'
+                    % escape(newObject._get_pk_val()), escape(newObject))
     else:
         form = addForm()
     pageContext = {'form': form, 'field': field}
     return render(request, "form/formpopup.html", pageContext)
 
 
-from django.contrib.auth.decorators import login_required
 @login_required
 def newImage(request):
     return handlePopAdd(request, UploadImage, 'thumbnail')
+
+
 @login_required
 def newCategory(request):
     return handlePopAdd(request, CreateCategoryForm, 'categories')
