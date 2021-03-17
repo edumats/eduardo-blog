@@ -20,7 +20,9 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('profile_picture', models.ImageField(upload_to='')),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('user', models.OneToOneField(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
@@ -39,7 +41,10 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('image', models.ImageField(upload_to='post_images/')),
-                ('alt_tag', models.CharField(blank=True, help_text='Describe the image in a specific manner', max_length=125)),
+                ('alt_tag', models.CharField(
+                    blank=True,
+                    help_text='Describe the image in a specific manner',
+                    max_length=125)),
             ],
         ),
         migrations.CreateModel(
@@ -54,7 +59,11 @@ class Migration(migrations.Migration):
                 ('featured', models.BooleanField(default=False)),
                 ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='posts.author')),
                 ('categories', models.ManyToManyField(blank=True, to='posts.Category')),
-                ('thumbnail', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='posts.image')),
+                ('thumbnail', models.ForeignKey(
+                    blank=True,
+                    null=True,
+                    on_delete=django.db.models.deletion.SET_NULL,
+                    to='posts.image')),
             ],
         ),
     ]

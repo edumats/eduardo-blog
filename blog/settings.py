@@ -12,7 +12,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', False)
+# If value of environment variable DEBUG is "True", it gets evaluated as boolean True
+DEBUG = os.getenv('DEBUG', False) == 'True'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(' ')
 
@@ -164,8 +165,6 @@ AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
 # Will append extra chracters to prevent overwrite
 AWS_S3_FILE_OVERWRITE = True
 
-# Base location for static files stores in S3
-# STATIC_URL = 'https://personal-django-blogs.s3-sa-east-1.amazonaws.com/'
 STATIC_URL = 'static/'
 
 # Configuration used by django-storages
@@ -173,9 +172,12 @@ STATIC_URL = 'static/'
 # To upload your media files to S3
 DEFAULT_FILE_STORAGE = 'blog.s3_storages.MediaStorage'
 
-# To allow django-admin collectstatic to automatically put your static files in your bucket
-# Comment out for local development
-# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
+# If in production environment, activate s3 storage for static files
+if not DEBUG:
+    # To allow django-admin collectstatic to automatically put your static files in your bucket
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
+    # Base location for static files stores in S3
+    STATIC_URL = 'https://eduardo-blog.s3-sa-east-1.amazonaws.com/'
 
 # Directory where uploaded files will be saved
 MEDIAFILES_LOCATION = 'uploads'
@@ -217,11 +219,9 @@ TINYMCE_DEFAULT_CONFIG = {
     }
 
 # Heroku: Update database configuration from $DATABASE_URL.
-""" import dj_database_url
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env) """
-
-# Uses sqlite when running tests
-# import sys
-# if 'test' in sys.argv:
-#     DATABASES['default'] = {'ENGINE': 'django.db.backends.sqlite3'}
+# If IS_HEROKU is 'True', use Heroku's database
+IS_HEROKU = os.getenv('IS_HEROKU')
+if IS_HEROKU == 'True':
+    import dj_database_url
+    db_from_env = dj_database_url.config(conn_max_age=500)
+    DATABASES['default'].update(db_from_env)
