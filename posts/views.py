@@ -10,7 +10,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.utils.html import escape
 from django.contrib.auth.decorators import login_required
 
-from .models import Author, Post
+from .models import Post
 from .forms import CreatePostForm, CreateCategoryForm, UploadImage
 
 
@@ -79,15 +79,8 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     template_name = '../templates/post_create_form.html'
 
     def form_valid(self, form):
-        print('form is valid')
-        current_user = Author.objects.get(user=self.request.user)
-        form.instance.author = current_user
         form.instance.slug = slugify(form.instance.title)
         return super().form_valid(form)
-
-    def form_invalid(self, form):
-        print(form.errors)
-        return super().form_invalid(form)
 
 
 class SearchView(ListView):

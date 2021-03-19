@@ -26,7 +26,6 @@ class TestForms(TestCase):
             'thumbnail': self.image,
             'author': self.author
         })
-        print(form.errors)
         self.assertTrue(form.is_valid())
 
     def test_create_post_no_data(self):
