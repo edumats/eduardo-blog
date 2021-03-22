@@ -70,7 +70,7 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
 class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
     template_name = '../templates/post_delete_form.html'
-    success_url = reverse_lazy('author-list')
+    success_url = reverse_lazy('index')
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
