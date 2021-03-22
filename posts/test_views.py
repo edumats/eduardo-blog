@@ -70,12 +70,11 @@ class TestViews(TestCase):
         self.assertTemplateUsed(response, '../templates/post.html')
 
     def test_post_delete_get(self):
-        pass
-        # response = self.client.get(reverse('post-delete', args=['test1']))
+        response = self.client.get(reverse('post-delete', args=['test1']))
         # Returning 302
-        # self.assertEqual(response.status_code, 200)
-        # No templates used to render this response
-        # self.assertTemplateUsed(response, '../templates/post_delete_form.html')
+        self.assertEqual(response.status_code, 302)
+        # Render delete template
+        self.assertTemplateUsed(response, '../templates/post_delete_form.html')
 
     def test_post_delete_POST(self):
         Post.objects.create(
