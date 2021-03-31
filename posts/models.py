@@ -53,8 +53,9 @@ class Post(models.Model):
     This title is used for page title
     and is limited to 60 chracters for better SEO
     '''
+    # Limited to 50 to avoid creating long slugs
     title = models.CharField(
-        max_length=60,
+        max_length=50,
         help_text='Try placing important keywords first'
     )
     slug = models.SlugField()

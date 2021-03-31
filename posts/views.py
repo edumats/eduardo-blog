@@ -79,7 +79,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     template_name = '../templates/post_create_form.html'
 
     def form_valid(self, form):
-        form.instance.slug = slugify(form.instance.title)
+        form.instance.slug = form.instance.title
         return super().form_valid(form)
 
 
@@ -127,6 +127,7 @@ def CreateCategoryView(request):
             return HttpResponseRedirect(reverse('post-create'))
 
 
+# Handles addition of related objects
 def handlePopAdd(request, addForm, field):
     if request.method == "POST":
         form = addForm(request.POST, request.FILES)
@@ -137,8 +138,11 @@ def handlePopAdd(request, addForm, field):
                 newObject = None
             if newObject:
                 return HttpResponse(
-                    '<script type="text/javascript">opener.dismissAddRelatedObjectPopup(window, "%s", "%s");</script>'
-                    % escape(newObject._get_pk_val()), escape(newObject))
+                    '<script type="text/javascript">'
+                    'opener.dismissAddRelatedObjectPopup('
+                    f'window, "{escape(newObject._get_pk_val())}", "{escape(newObject)}");'
+                    '</script>'
+                )
     else:
         form = addForm()
     pageContext = {'form': form, 'field': field}

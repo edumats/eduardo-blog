@@ -12,19 +12,24 @@
       <!-- Navbar Menu -->
       <div id="navbarcollapse" class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item"><a href="{% url 'blog' %}" class="nav-link active ">Blog</a>
-          </li>
-          <li class="nav-item">
-            <a href="{% url 'profile-detail' 'edumats' %}" class="nav-link">Contact</a>
-          </li>
-          {% if user.is_authenticated %}
             <li class="nav-item">
-                <a href="{% url 'post-create' %}" class="nav-link ">Post</a>
+                <a href="{% url 'blog' %}" class="nav-link active ">Blog</a>
             </li>
             <li class="nav-item">
-                <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+                <a href="{% url 'profile-detail' 'edumats' %}" class="nav-link">Contact</a>
             </li>
-          {% endif %}
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a href="{% url 'post-create' %}" class="nav-link ">Post</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+                </li>
+            {% endif %}
+            <form class="form-inline ml-md-4 my-2 my-lg-0" action="{% url 'search' %}" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
         </ul>
       </div>
   </nav>

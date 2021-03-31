@@ -17,8 +17,13 @@
 
 body {
     font-family: 'ShareTechMono', monospace;
-	background-color: black;
+    background-color: black;
     color: #FFFAF0;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
 }
 
 p {
@@ -66,4 +71,8 @@ th {
 
 .prev-post {
     margin-right: auto;
+}
+
+.post-thumbnail {
+
 }

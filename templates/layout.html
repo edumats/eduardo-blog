@@ -12,8 +12,8 @@
 
         <!-- Font Awesome CSS-->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
-        
-        
+
+
         <!-- Favicon-->
         <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
 
@@ -32,14 +32,14 @@
 
     <body>
         {% include "navbar.html" %}
-        
-        <div id="page-container" class="container">
+
+        <div id="page-container" class="container mt-4">
             <div class="row">
                 {% block content %}
                 {% endblock %}
-            </div>           
+            </div>
         </div>
-        
+
         {% include "footer.html" %}
     </body>
 </html>
